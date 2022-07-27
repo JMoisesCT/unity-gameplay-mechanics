@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
 {
-    public class SpawnerSystem : MonoBehaviour
+    public class SpawnerSystemBasic : MonoBehaviour
     {
         [Header("Prefab")]
         [SerializeField] private GameObject _ball;
@@ -22,6 +22,8 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
 
         private void Awake()
         {
+            _targetsPosition = new List<Vector3>();
+
             Transform[] targets = _targetsContainer.GetComponentsInChildren<Transform>();
             // Ignore the position 0 Transform (it's the parent)
             for (int i = 1; i < targets.Length; i++)

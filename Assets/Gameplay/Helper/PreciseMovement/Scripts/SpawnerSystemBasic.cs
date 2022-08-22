@@ -1,3 +1,4 @@
+using JMoisesCT.UnityMechanics.Utils;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,12 +19,16 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
         [SerializeField] private float _speedMove;
         [SerializeField] [Tooltip("In milliseconds")] private float _spawnRate;
 
+        private PoolSystem<MovableObject> _poolSystem;
         private List<Transform> _targets;
         private List<MovableObject> _balls;
         private float _timer;
 
         private void Awake()
         {
+            _poolSystem = new PoolSystem<MovableObject>();
+            _poolSystem.Initialize(20, _ball, _ballsContainer);
+
             _targets = new List<Transform>();
 
             Transform[] targets = _targetsContainer.GetComponentsInChildren<Transform>();
@@ -45,7 +50,8 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                 _timer -= Time.deltaTime;
                 if (_timer <= 0f)
                 {
-                    MovableObject ball = Instantiate(_ball, _ballsContainer).GetComponent<MovableObject>();
+                    MovableObject ball = _poolSystem.GetFromPool(); //Instantiate(_ball, _ballsContainer).GetComponent<MovableObject>();
+                    ball.gameObject.SetActive(true);
                     // Let's calculate the direction to the first target.
                     Vector2 direction = _targets[0].localPosition - _spawner.localPosition;
                     Vector2 speedToDirection = (direction / direction.magnitude) * _speedMove;
@@ -58,17 +64,25 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                 }
             }
 
+            bool shouldRemove = false;
             for (int i = 0; i < _balls.Count; ++i)
             {
                 // Check if any ball has reached the target.
                 if (_balls[i].CheckIfTargetReached())
                 {
                     _balls[i].ResetObject();
+                    _poolSystem.ReturnToPool(_balls[i]);
+                    shouldRemove = true;
                 }
                 if (_balls[i].IsAlive)
                 {
                     _balls[i].UpdateMove();
                 }
+            }
+            // This removes not alive objects.
+            if (shouldRemove)
+            {
+                _balls.RemoveAll(b => !b.IsAlive);
             }
         }
     }

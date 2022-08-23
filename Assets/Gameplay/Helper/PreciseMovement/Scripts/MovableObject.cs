@@ -11,6 +11,7 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
         private int _targetIndex;
 
         public bool IsAlive => _isAlive;
+        public int TargetIndex => _targetIndex;
 
         private void Awake()
         {

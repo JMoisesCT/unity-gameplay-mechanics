@@ -70,9 +70,21 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                 // Check if any ball has reached the target.
                 if (_balls[i].CheckIfTargetReached())
                 {
-                    _balls[i].ResetObject();
-                    _poolSystem.ReturnToPool(_balls[i]);
-                    shouldRemove = true;
+                    if(_balls[i].TargetIndex == _targets.Count - 1)
+                    {
+                        _balls[i].ResetObject();
+                        _poolSystem.ReturnToPool(_balls[i]);
+                        shouldRemove = true;
+                    }
+                    else
+                    {
+                        int ballIndex = _balls[i].TargetIndex;
+                        Vector2 direction = _targets[ballIndex + 1].localPosition - _targets[ballIndex].localPosition;
+                        Vector2 speedToDirection = (direction / direction.magnitude) * _speedMove;
+                        _balls[i].SetPosition(_targets[ballIndex].localPosition.x, _targets[ballIndex].localPosition.y);
+                        _balls[i].SetSpeed(speedToDirection.x, speedToDirection.y);
+                        _balls[i].SetTarget(_targets[ballIndex + 1].localPosition, ballIndex + 1);
+                    }
                 }
                 if (_balls[i].IsAlive)
                 {

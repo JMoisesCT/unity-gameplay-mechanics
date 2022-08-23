@@ -53,11 +53,7 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                     MovableObject ball = _poolSystem.GetFromPool(); //Instantiate(_ball, _ballsContainer).GetComponent<MovableObject>();
                     ball.gameObject.SetActive(true);
                     // Let's calculate the direction to the first target.
-                    Vector2 direction = _targets[0].localPosition - _spawner.localPosition;
-                    Vector2 speedToDirection = (direction / direction.magnitude) * _speedMove;
-                    ball.SetPosition(_spawner.localPosition.x, _spawner.localPosition.y);
-                    ball.SetSpeed(speedToDirection.x, speedToDirection.y);
-                    ball.SetTarget(_targets[0].localPosition, 0);
+                    SetBallValues(ball, 0, _spawner, _targets[0]);
                     ball.Initialize();
                     _balls.Add(ball);
                     _timer = _spawnRate * 0.001f;
@@ -79,11 +75,7 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                     else
                     {
                         int ballIndex = _balls[i].TargetIndex;
-                        Vector2 direction = _targets[ballIndex + 1].localPosition - _targets[ballIndex].localPosition;
-                        Vector2 speedToDirection = (direction / direction.magnitude) * _speedMove;
-                        _balls[i].SetPosition(_targets[ballIndex].localPosition.x, _targets[ballIndex].localPosition.y);
-                        _balls[i].SetSpeed(speedToDirection.x, speedToDirection.y);
-                        _balls[i].SetTarget(_targets[ballIndex + 1].localPosition, ballIndex + 1);
+                        SetBallValues(_balls[i], ballIndex + 1, _targets[ballIndex], _targets[ballIndex + 1]);
                     }
                 }
                 if (_balls[i].IsAlive)
@@ -96,6 +88,15 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             {
                 _balls.RemoveAll(b => !b.IsAlive);
             }
+        }
+
+        private void SetBallValues(MovableObject ball, int indexTarget, Transform init, Transform target)
+        {
+            Vector2 direction = target.localPosition - init.localPosition;
+            Vector2 speedToDirection = (direction / direction.magnitude) * _speedMove;
+            ball.SetPosition(init.localPosition.x, init.localPosition.y);
+            ball.SetSpeed(speedToDirection.x, speedToDirection.y);
+            ball.SetTarget(target.localPosition, indexTarget);
         }
     }
 }

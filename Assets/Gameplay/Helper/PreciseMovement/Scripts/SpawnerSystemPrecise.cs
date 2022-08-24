@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
 {
-    public class SpawnerSystemBasic : MonoBehaviour
+    public class SpawnerSystemPrecise : MonoBehaviour
     {
         [Header("Prefab")]
         [SerializeField] private GameObject _ball;

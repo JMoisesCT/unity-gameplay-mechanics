@@ -781,15 +781,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 406014981344916063, guid: bfa9f5ddaa6f69c4d917fdd6ac150ebb, type: 3}
       propertyPath: _spawnRate
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 406014981344916063, guid: bfa9f5ddaa6f69c4d917fdd6ac150ebb, type: 3}
       propertyPath: _speedMove
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5845363297780319754, guid: bfa9f5ddaa6f69c4d917fdd6ac150ebb, type: 3}
       propertyPath: m_Name
       value: SpawnerSystemPrecise
+      objectReference: {fileID: 0}
+    - target: {fileID: 5845363297780319754, guid: bfa9f5ddaa6f69c4d917fdd6ac150ebb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5845363297780319757, guid: bfa9f5ddaa6f69c4d917fdd6ac150ebb, type: 3}
       propertyPath: m_RootOrder

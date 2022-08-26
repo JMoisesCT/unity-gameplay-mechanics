@@ -50,21 +50,6 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
 
         private void Update()
         {
-            _timer += Time.deltaTime;
-            CheckSpawn();
-            if (_timeOffset.Count > 0)
-            {
-                for (int i = 0; i < _timeOffset.Count; ++i)
-                {
-                    MovableObject ball = _poolSystem.GetFromPool();
-                    ball.gameObject.SetActive(true);
-                    // Let's calculate the direction to the first target.
-                    SetBallValues(ball, 0, _spawner, _targets[0], _timeOffset[i]);
-                    ball.Initialize();
-                    _balls.Add(ball);
-                }
-            }
-
             bool shouldRemove = false;
             for (int i = 0; i < _balls.Count; ++i)
             {
@@ -92,6 +77,21 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             if (shouldRemove)
             {
                 _balls.RemoveAll(b => !b.IsAlive);
+            }
+
+            _timer += Time.deltaTime;
+            CheckSpawn();
+            if (_timeOffset.Count > 0)
+            {
+                for (int i = 0; i < _timeOffset.Count; ++i)
+                {
+                    MovableObject ball = _poolSystem.GetFromPool();
+                    ball.gameObject.SetActive(true);
+                    // Let's calculate the direction to the first target.
+                    SetBallValues(ball, 0, _spawner, _targets[0], _timeOffset[i]);
+                    ball.Initialize();
+                    _balls.Add(ball);
+                }
             }
         }
 

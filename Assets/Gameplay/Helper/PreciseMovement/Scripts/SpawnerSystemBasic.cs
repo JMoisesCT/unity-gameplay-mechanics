@@ -45,28 +45,13 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
 
         private void Update()
         {
-            if (_timer > 0f)
-            {
-                _timer -= Time.deltaTime;
-                if (_timer <= 0f)
-                {
-                    MovableObject ball = _poolSystem.GetFromPool();
-                    ball.gameObject.SetActive(true);
-                    // Let's calculate the direction to the first target.
-                    SetBallValues(ball, 0, _spawner, _targets[0]);
-                    ball.Initialize();
-                    _balls.Add(ball);
-                    _timer = _spawnRate * 0.001f;
-                }
-            }
-
             bool shouldRemove = false;
             for (int i = 0; i < _balls.Count; ++i)
             {
                 // Check if any ball has reached the target.
                 if (_balls[i].CheckIfTargetReached())
                 {
-                    if(_balls[i].TargetIndex == _targets.Count - 1)
+                    if (_balls[i].TargetIndex == _targets.Count - 1)
                     {
                         _balls[i].ResetObject();
                         _poolSystem.ReturnToPool(_balls[i]);
@@ -87,6 +72,21 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             if (shouldRemove)
             {
                 _balls.RemoveAll(b => !b.IsAlive);
+            }
+
+            if (_timer > 0f)
+            {
+                _timer -= Time.deltaTime;
+                if (_timer <= 0f)
+                {
+                    MovableObject ball = _poolSystem.GetFromPool();
+                    ball.gameObject.SetActive(true);
+                    // Let's calculate the direction to the first target.
+                    SetBallValues(ball, 0, _spawner, _targets[0]);
+                    ball.Initialize();
+                    _balls.Add(ball);
+                    _timer = _spawnRate * 0.001f;
+                }
             }
         }
 

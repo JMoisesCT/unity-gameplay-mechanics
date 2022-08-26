@@ -16,8 +16,8 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
         [SerializeField] private Transform _ballsContainer;
 
         [Header("Parameters")]
-        [SerializeField] private float _speedMove;
-        [SerializeField] [Tooltip("In milliseconds")] private float _spawnRate;
+        [SerializeField] [Range(1f, 20f)] private float _speedMove;
+        [SerializeField] [Range(25f, 200f)] [Tooltip("In milliseconds")] private float _spawnRate;
 
         private PoolSystem<MovableObject> _poolSystem;
         private List<Transform> _targets;
@@ -83,7 +83,7 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                     _balls[i].UpdateMove();
                 }
             }
-            // This removes not alive objects.
+            // This removes non alive objects.
             if (shouldRemove)
             {
                 _balls.RemoveAll(b => !b.IsAlive);

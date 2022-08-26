@@ -45,6 +45,11 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             _targetIndex = targetIndex;
         }
 
+        public void SetOffset(float timeOffset)
+        {
+            transform.localPosition += _speed * timeOffset;
+        }
+
         public void UpdateMove()
         {
             if (_isAlive)

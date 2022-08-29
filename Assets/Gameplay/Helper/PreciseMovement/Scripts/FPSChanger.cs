@@ -23,6 +23,7 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             _button30Fps.onClick.RemoveListener(PressButton30Fps);
             _button60Fps.onClick.RemoveListener(PressButton60Fps);
         }
+
         private void PressButton15Fps()
         {
             Application.targetFrameRate = 15;

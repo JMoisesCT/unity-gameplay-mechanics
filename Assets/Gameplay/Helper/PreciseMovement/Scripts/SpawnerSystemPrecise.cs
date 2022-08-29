@@ -26,30 +26,23 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
         private List<float> _timeOffset;
         private float _timer;
         private float _spawnTime;
+        private bool _isEnabled;
 
         private void Awake()
         {
             _poolSystem = new PoolSystem<MovableObject>();
             _poolSystem.Initialize(20, _ball, _ballsContainer);
-
             _targets = new List<Transform>();
-
-            Transform[] targets = _targetsContainer.GetComponentsInChildren<Transform>();
-            // Ignore the position 0 Transform (it's the parent)
-            for (int i = 1; i < targets.Length; ++i)
-            {
-                _targets.Add(targets[i]);
-            }
-
             _balls = new List<MovableObject>();
-
             _timeOffset = new List<float>();
-            _timer = 0f;
-            _spawnTime = _spawnRate * 0.001f; // To convert milliseconds to seconds.
         }
 
         private void Update()
         {
+            if (!_isEnabled)
+            {
+                return;
+            }
             bool shouldRemove = false;
             for (int i = 0; i < _balls.Count; ++i)
             {
@@ -97,6 +90,44 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                     _balls.Add(ball);
                 }
             }
+        }
+
+        public void EnableSpawner(bool enable)
+        {
+            _isEnabled = enable;
+            if (_isEnabled)
+            {
+                InitializeSpawner();
+            }
+            else
+            {
+                ResetSpawner();
+            }
+        }
+
+        private void InitializeSpawner()
+        {
+            Transform[] targets = _targetsContainer.GetComponentsInChildren<Transform>();
+            // Ignore the position 0 Transform (it's the parent)
+            for (int i = 1; i < targets.Length; ++i)
+            {
+                _targets.Add(targets[i]);
+            }
+            _timer = 0f;
+            _spawnTime = _spawnRate * 0.001f; // To convert milliseconds to seconds.
+        }
+
+        private void ResetSpawner()
+        {
+            _targets.Clear();
+            // All movable objects (balls) should return to pool and clear the balls list.
+            for (int i = 0; i < _balls.Count; ++i)
+            {
+                _balls[i].ResetObject();
+                _poolSystem.ReturnToPool(_balls[i]);
+            }
+            _balls.Clear();
+            _timeOffset.Clear();
         }
 
         private void CheckSpawn()

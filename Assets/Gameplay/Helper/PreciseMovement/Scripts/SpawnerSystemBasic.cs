@@ -63,9 +63,12 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                         SetBallValues(_balls[i], ballIndex + 1, _targets[ballIndex], _targets[ballIndex + 1]);
                     }
                 }
-                if (_balls[i].IsAlive)
+                else
                 {
-                    _balls[i].UpdateMove();
+                    if (_balls[i].IsAlive)
+                    {
+                        _balls[i].UpdateMove();
+                    }
                 }
             }
             // This removes non alive objects.

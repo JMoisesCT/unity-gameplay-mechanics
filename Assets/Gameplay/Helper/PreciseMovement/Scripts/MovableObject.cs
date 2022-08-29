@@ -63,21 +63,43 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             Vector3 nextPos = transform.localPosition + _speed * Time.deltaTime;
             if (_speed.x != 0f)
             {
-                if (_speed.x > 0f && nextPos.x > _targetPosition.x ||
-                    _speed.x < 0f && nextPos.x < _targetPosition.x)
+                if (_speed.x > 0f && nextPos.x >= _targetPosition.x ||
+                    _speed.x < 0f && nextPos.x <= _targetPosition.x)
                 {
                     return true;
                 }
             }
             if (_speed.y != 0f)
             {
-                if (_speed.y > 0f && nextPos.y > _targetPosition.y ||
-                    _speed.y < 0f && nextPos.y < _targetPosition.y)
+                if (_speed.y > 0f && nextPos.y >= _targetPosition.y ||
+                    _speed.y < 0f && nextPos.y <= _targetPosition.y)
                 {
                     return true;
                 }
             }
             return false;
+        }
+
+        public float GetTimeOffsetIfTargetReached()
+        {
+            Vector3 nextPos = transform.localPosition + _speed * Time.deltaTime;
+            if (_speed.x != 0f)
+            {
+                if (_speed.x > 0f && nextPos.x >= _targetPosition.x ||
+                    _speed.x < 0f && nextPos.x <= _targetPosition.x)
+                {
+                    return Mathf.Abs((nextPos.x - _targetPosition.x) / _speed.x);
+                }
+            }
+            if (_speed.y != 0f)
+            {
+                if (_speed.y > 0f && nextPos.y >= _targetPosition.y ||
+                    _speed.y < 0f && nextPos.y <= _targetPosition.y)
+                {
+                    return Mathf.Abs((nextPos.y - _targetPosition.y) / _speed.y);
+                }
+            }
+            return 0f;
         }
     }
 }

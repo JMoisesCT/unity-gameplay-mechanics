@@ -53,8 +53,9 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
             bool shouldRemove = false;
             for (int i = 0; i < _balls.Count; ++i)
             {
-                // Check if any ball has reached the target.
-                if (_balls[i].CheckIfTargetReached())
+                // Check if any ball has reached the target and get its time offset.
+                float timeOffset = _balls[i].GetTimeOffsetIfTargetReached();
+                if (timeOffset != 0f)
                 {
                     if (_balls[i].TargetIndex == _targets.Count - 1)
                     {
@@ -65,12 +66,15 @@ namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement
                     else
                     {
                         int ballIndex = _balls[i].TargetIndex;
-                        SetBallValues(_balls[i], ballIndex + 1, _targets[ballIndex], _targets[ballIndex + 1], 0f);
+                        SetBallValues(_balls[i], ballIndex + 1, _targets[ballIndex], _targets[ballIndex + 1], timeOffset);
                     }
                 }
-                if (_balls[i].IsAlive)
+                else
                 {
-                    _balls[i].UpdateMove();
+                    if (_balls[i].IsAlive)
+                    {
+                        _balls[i].UpdateMove();
+                    }
                 }
             }
             // This removes non alive objects.

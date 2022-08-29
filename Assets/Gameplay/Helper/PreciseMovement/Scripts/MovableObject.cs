@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace JMoisesCT.UnityMechanics.Helper.PreciseMovement

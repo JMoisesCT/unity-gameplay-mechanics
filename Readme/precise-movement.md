@@ -23,3 +23,21 @@ Using the Precise Spawner, the objects are spawned in a similar way as the previ
 ![Spawner Precise](https://user-images.githubusercontent.com/5108925/187822397-436960f1-3829-4120-ad97-9832f48f09fe.png)
 
 ## How to use the project
+
+The project is located in `Gameplay/Helper/PreciseMovement/PreciseMovement.unity`
+
+![image](https://user-images.githubusercontent.com/5108925/187824565-ef68ee59-6aa0-4cd5-bb6c-d8edccd5f643.png)
+
+When the scene is opened, you can play and test the project. The buttons **Basic Spawner** and **Precise Spawner** toggles between the Spawners system.
+
+The buttons 15, 30 and 60 FPS change the Frames per second of the project, so you can check the performance of each spawner.
+
+![Play and Buttons](https://media.giphy.com/media/XT7CHZvk9ECYv4mowE/giphy.gif)
+
+To set up the parameters of each spawner:
+
+![Configuration 1](https://media.giphy.com/media/mTqLqGNUJASqAxSMeL/giphy.gif)
+
+To set up the targets of each spawner, you can modify positions, add and remove targets. They are detected by the position order in their parent container.
+
+![Configuration 2](https://media.giphy.com/media/W0RVp3lfqXzFuZY3ji/giphy.gif)

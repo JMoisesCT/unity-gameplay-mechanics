@@ -9,12 +9,6 @@ namespace JMoisesCT.UnityMechanics.Tools.TilemapExtrusion
         [SerializeField] private Sprite _sprite;
         [SerializeField] private SpriteRenderer _renderer;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
         // Update is called once per frame
         void Update()
         {
@@ -28,7 +22,6 @@ namespace JMoisesCT.UnityMechanics.Tools.TilemapExtrusion
                 int newWidth = originalWidth + 2;
                 int newHeight = originalHeight + 2;
 
-                //Texture2D texture = new Texture2D(_texture.width + 2, _texture.height + 2);
                 Texture2D texture = new Texture2D(newWidth, newHeight);
 
                 for (int y = 0; y < originalHeight; y++)
@@ -45,11 +38,15 @@ namespace JMoisesCT.UnityMechanics.Tools.TilemapExtrusion
                         {
                             texture.SetPixel(copyX, y + 1, pixels[x + y * originalWidth]);
                         }
-                        //if ( x == 0 || x == _texture.width || )
                         // This code copies the texture in the center of the new texture.
                         texture.SetPixel(x + 1, y + 1, pixels[x + y * originalWidth]);
                     }
                 }
+                // For each corner.
+                texture.SetPixel(0, 0, pixels[0]); // Bottom left
+                texture.SetPixel(newWidth - 1, 0, pixels[originalWidth - 1]); // Bottom right
+                texture.SetPixel(0, newHeight - 1, pixels[(originalHeight - 1) * originalWidth]); // Upper left
+                texture.SetPixel(newWidth - 1, newHeight - 1, pixels[pixels.Length - 1]); // Upper right
 
                 texture.filterMode = _texture.filterMode;
                 texture.Apply();
